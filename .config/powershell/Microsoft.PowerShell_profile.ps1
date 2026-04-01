@@ -4,7 +4,7 @@
 # OH MY POSH
 # ============================================================
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    oh-my-posh init pwsh | Invoke-Expression
+    oh-my-posh init pwsh --config ~/.cache/oh-my-posh/themes/pure.omp.json | Invoke-Expression | Invoke-Expression
 }
 
 # ============================================================
