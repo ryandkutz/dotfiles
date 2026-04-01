@@ -15,6 +15,10 @@ if ($host.Name -eq 'ConsoleHost') {
     Set-PSReadLineOption -PredictionSource History
     Set-PSReadLineOption -PredictionViewStyle ListView
 
+    # Word navigation on Ctrl+L/RArrow
+    Set-PSReadLineKeyHandler -Key Ctrl+LeftArrow  -Function BackwardWord
+    Set-PSReadLineKeyHandler -Key Ctrl+RightArrow -Function ForwardWord
+    
     # History search on arrow keys
     Set-PSReadLineKeyHandler -Key UpArrow   -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
