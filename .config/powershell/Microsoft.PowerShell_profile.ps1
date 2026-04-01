@@ -4,7 +4,7 @@
 # OH MY POSH
 # ============================================================
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    oh-my-posh init pwsh --config "$(oh-my-posh env shell)" | Invoke-Expression
+    oh-my-posh init pwsh | Invoke-Expression
 }
 
 # ============================================================
