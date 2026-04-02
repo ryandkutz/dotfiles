@@ -25,3 +25,7 @@ alias -- -="cd -"
 if [[ -f ~/.aliases.local ]]; then
   source ~/.aliases.local
 fi
+
+# k8s etc
+alias k="kubectl"
+alias gp="git add . && git commit -m "autopush" && git push"
