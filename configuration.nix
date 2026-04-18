@@ -41,10 +41,6 @@
     enable = true;
     openFirewall = true;
     defaultWindowManager = "startplasma-x11";
-    extraConfDirCommands = ''
-      substituteInPlace $out/xrdp.ini \
-        --replace-fail "use_vsock=false" "use_vsock=true"
-    '';
   };
   
   systemd.services.xrdp.serviceConfig.ExecStart = lib.mkForce
