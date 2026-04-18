@@ -9,8 +9,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Hyper-V: force a higher framebuffer resolution
-  boot.kernelParams = [ "video=hyperv_fb:1920x1080" ];
+  # Use hyperv_drm instead of hyperv_fb for better RDP/enhanced session support
+  boot.blacklistedKernelModules = [ "hyperv_fb" ];
 
   networking.hostName = "nixos-dev";
   networking.networkmanager.enable = true;
@@ -21,6 +21,7 @@
   # X11 + KDE Plasma 6
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.defaultSession = "plasmax11";
   services.desktopManager.plasma6.enable = true;
   services.xserver.xkb.layout = "us";
 
@@ -35,6 +36,25 @@
 
   # Hyper-V guest integration services
   virtualisation.hypervGuest.enable = true;
+
+  # XRDP with vsock patch for Hyper-V enhanced session
+  services.xrdp = {
+    enable = true;
+    openFirewall = true;
+    defaultWindowManager = "startplasma-x11";
+    package = pkgs.xrdp.overrideAttrs (old: {
+      configureFlags = (old.configureFlags or []) ++ [ "--enable-vsock" ];
+      postInstall = (old.postInstall or "") + ''
+        substituteInPlace $out/etc/xrdp/xrdp.ini \
+          --replace "port=3389" "port=vsock://-1:3389"
+      '';
+    });
+  };
+
+  # Required for xrdp to start X sessions
+  environment.etc."X11/Xwrapper.config".text = ''
+    allowed_users=anybody
+  '';
 
   # User account
   users.users.ryan = {
@@ -142,5 +162,5 @@
     noto-fonts-emoji
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
 }
