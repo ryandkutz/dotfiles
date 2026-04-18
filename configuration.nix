@@ -113,6 +113,7 @@ services.xrdp = {
     dig
     openssh
     gnupg
+    rcm
 
     # Editors / IDEs
     vscode
