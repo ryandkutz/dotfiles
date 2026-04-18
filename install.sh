@@ -18,10 +18,10 @@ ln -sf "$DOTFILES_DIR/.config/powershell/Microsoft.PowerShell_profile.ps1" \
        ~/.config/powershell/Microsoft.PowerShell_profile.ps1
 
 # ── NixOS configuration ───────────────────────────────────────────────────────
-if [ -f "$DOTFILES_DIR/configuration.nix" ]; then
-  echo "Installing NixOS configuration to /etc/nixos/configuration.nix..."
-  sudo cp "$DOTFILES_DIR/configuration.nix" /etc/nixos/configuration.nix
-  echo "NixOS configuration installed. Run 'sudo nixos-rebuild switch' to apply."
-fi
+# if [ -f "$DOTFILES_DIR/configuration.nix" ]; then
+#   echo "Installing NixOS configuration to /etc/nixos/configuration.nix..."
+#   sudo cp "$DOTFILES_DIR/configuration.nix" /etc/nixos/configuration.nix
+#   echo "NixOS configuration installed. Run 'sudo nixos-rebuild switch' to apply."
+# fi
 
 echo "Dotfiles installed."
