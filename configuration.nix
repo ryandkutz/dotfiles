@@ -159,7 +159,7 @@
     fira-code
     fira-code-symbols
     noto-fonts
-    noto-fonts-emoji
+    noto-fonts-color-emoji
   ];
 
   system.stateVersion = "25.11";
