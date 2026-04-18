@@ -38,19 +38,21 @@
   virtualisation.hypervGuest.enable = true;
 
   # XRDP with vsock patch for Hyper-V enhanced session
-services.xrdp = {
-  enable = true;
-  openFirewall = true;
-  defaultWindowManager = "startplasma-x11";
-  port = -1;  # tells the service to use vsock
-  package = pkgs.xrdp.overrideAttrs (old: {
-    configureFlags = (old.configureFlags or []) ++ [ "--enable-vsock" ];
-    postInstall = (old.postInstall or "") + ''
-      substituteInPlace $out/etc/xrdp/xrdp.ini \
-        --replace "use_vsock=false" "use_vsock=true"
-    '';
-  });
-};
+  services.xrdp = {
+    enable = true;
+    openFirewall = true;
+    defaultWindowManager = "startplasma-x11";
+    package = pkgs.xrdp.overrideAttrs (old: {
+      configureFlags = (old.configureFlags or []) ++ [ "--enable-vsock" ];
+      postInstall = (old.postInstall or "") + ''
+        substituteInPlace $out/etc/xrdp/xrdp.ini \
+          --replace "use_vsock=false" "use_vsock=true" \
+          --replace "port=3389" "port=vsock://-1:3389"
+      '';
+    });
+  };
+
+  systemd.services.xrdp.serviceConfig.ExecStart = lib.mkForce "${config.services.xrdp.package}/bin/xrdp --nodaemon --config /run/xrdp/xrdp.ini";
 
   # Required for xrdp to start X sessions
   environment.etc."X11/Xwrapper.config".text = ''
