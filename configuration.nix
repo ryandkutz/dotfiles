@@ -41,13 +41,7 @@
     enable = true;
     openFirewall = true;
     defaultWindowManager = "startplasma-x11";
-    package = pkgs.xrdp.overrideAttrs (old: {
-      configureFlags = (old.configureFlags or []) ++ [ "--enable-vsock" ];
-    });
   };
-
-systemd.services.xrdp.serviceConfig.ExecStart = lib.mkForce
-  "${config.services.xrdp.package}/bin/xrdp --nodaemon --config /etc/xrdp/xrdp.ini";
 
   # Required for xrdp to start X sessions
   environment.etc."X11/Xwrapper.config".text = ''
